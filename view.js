@@ -1,9 +1,33 @@
 // ---- Define your dialogs  and panels here ----
+let dialog = define_new_dialog(id_prefix = "perm_id", title='', options = {
+    width: 400,
+    height: 200,
+    button: {
+        "Close": function(){
+            $(this).dialog("close");
+        }
+    }
 
+});
+$('.fa fa-info-circle perm_info').click(function(){
+
+    console.log('clicked!')
+    dialog.dialog("open");
+
+});
 
 
 // ---- Display file structure ----
+$('#perm_id').attr('filepath', '/C');
 
+let effective_permission_jquery = define_new_effective_permissions(id_prefix = "perm_id", add_info_col = true, which_permissions = null);
+$('#sidepanel').append(effective_permission_jquery);
+
+
+let user_button_jquery = define_new_user_select_field(id_prefix = "perm_id", select_button_text = "User", on_user_change = function(selected_user){
+    $('#perm_id').attr('username', selected_user);
+});
+$('#sidepanel').append(user_button_jquery);
 // (recursively) makes and returns an html element (wrapped in a jquery object) for a given file object
 function make_file_element(file_obj) {
     let file_hash = get_full_path(file_obj)
